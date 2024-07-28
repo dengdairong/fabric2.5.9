@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: fabric
+
+fabric:
+  chaincodeId: myccJeremy1
+  channel: mychannel
+  contractNames: ManufacturerContract,HospitalContract,PatientContract
