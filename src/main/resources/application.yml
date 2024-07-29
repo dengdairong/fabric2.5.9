@@ -2,6 +2,13 @@ spring:
   application:
     name: fabric
 
+logging:
+  file:
+    name: app.log
+    path: ./logs
+  level:
+    root: WARN
+
 fabric:
   chaincodeId: myccJeremy1
   channel: mychannel

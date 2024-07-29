@@ -39,8 +39,9 @@ public class ContractUtil implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (contractNames != null && contractNames.size() > 0) {
+            Network network = gateway.getNetwork(channel);
             for (String contractName : contractNames) {
-                map.put(contractName, getContract(contractName));
+                map.put(contractName,  network.getContract(chaincodeId, contractName));
             }
         }
     }
