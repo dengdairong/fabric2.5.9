@@ -5,7 +5,7 @@ CURRENT_PATH=`pwd`
 APP_NAME="fabric-0.0.1-SNAPSHOT"
 
 # 定义Spring Boot应用的JAR文件
-APP_JAR="$CURRENT_PATH/$APP_NAME.jar"
+APP_JAR="$APP_NAME.jar"
 
 # 定义Spring Boot应用的PID文件
 PID_FILE="application.pid"

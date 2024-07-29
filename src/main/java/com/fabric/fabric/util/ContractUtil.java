@@ -41,7 +41,7 @@ public class ContractUtil implements CommandLineRunner {
         if (contractNames != null && contractNames.size() > 0) {
             Network network = gateway.getNetwork(channel);
             for (String contractName : contractNames) {
-                map.put(contractName,  network.getContract(chaincodeId, contractName));
+                map.put(contractName, network.getContract(chaincodeId, contractName));
             }
         }
     }
