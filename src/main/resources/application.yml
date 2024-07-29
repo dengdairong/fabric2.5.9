@@ -13,3 +13,4 @@ fabric:
   chaincodeId: myccJeremy1
   channel: mychannel
   contractNames: ManufacturerContract,HospitalContract,PatientContract
+  path:

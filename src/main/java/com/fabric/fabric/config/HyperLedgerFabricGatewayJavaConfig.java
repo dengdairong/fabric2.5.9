@@ -1,10 +1,14 @@
 package com.fabric.fabric.config;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hyperledger.fabric.gateway.*;
+import org.hyperledger.fabric.gateway.Gateway;
+import org.hyperledger.fabric.gateway.Identities;
+import org.hyperledger.fabric.gateway.Wallet;
+import org.hyperledger.fabric.gateway.Wallets;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,12 +24,16 @@ import java.security.cert.X509Certificate;
 import java.util.Properties;
 
 @Configuration
-@AllArgsConstructor
 @Slf4j
 public class HyperLedgerFabricGatewayJavaConfig {
+    @Value("${fabric.path}")
+    private String path;
 
     @Bean
     public Properties properties() throws Exception {
+        if (!StringUtils.hasText(path)) {
+            path = HyperLedgerFabricGatewayJavaConfig.class.getResource("/").getPath().substring(1);
+        }
         // 主要读取java的配置文件
         Properties properties = new Properties();
         InputStream inputStream = Gateway.class.getResourceAsStream("/fabric.config.properties");
@@ -33,16 +41,15 @@ public class HyperLedgerFabricGatewayJavaConfig {
         return properties;
     }
 
-    @Bean(destroyMethod="close")
+    @Bean(destroyMethod = "close")
     public Gateway gateway(Properties properties) throws Exception {
-        String networkConfigPath = properties.getProperty("networkConfigPath");
-        String certificatePath = properties.getProperty("certificatePath");
+        String networkConfigPath = path + properties.getProperty("networkConfigPath");
+        String certificatePath = path + properties.getProperty("certificatePath");
         X509Certificate certificate = readX509Certificate(Paths.get(certificatePath));
-        String privateKeyPath = properties.getProperty("privateKeyPath");
+        String privateKeyPath = path + properties.getProperty("privateKeyPath");
         PrivateKey privateKey = getPrivateKey(Paths.get(privateKeyPath));
         Wallet wallet = Wallets.newInMemoryWallet();
         wallet.put("user1", Identities.newX509Identity("Org2MSP", certificate, privateKey));
-
         Gateway.Builder builder = Gateway.createBuilder()
                 .identity(wallet, "user1")
                 .networkConfig(Paths.get(networkConfigPath));
