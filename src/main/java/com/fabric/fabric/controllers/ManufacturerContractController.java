@@ -31,10 +31,10 @@ public class ManufacturerContractController {
         return ResponseDto.success();
     }
 
-    @PostMapping("/getManufacturerList")
-    public ResponseDto<String> getManufacturerList() throws Throwable {
+    @PostMapping("/getManufacturers")
+    public ResponseDto<String> getManufacturers() throws Throwable {
         Contract contract = contractUtil.getContract(CONTRACT);
-        byte[] bytes = contract.evaluateTransaction("GetManufacturerList");
+        byte[] bytes = contract.evaluateTransaction("GetManufacturers");
         return ResponseDto.success(new String(bytes, StandardCharsets.UTF_8));
     }
 

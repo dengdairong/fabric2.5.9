@@ -28,17 +28,17 @@ public class HospitalContractController {
         return ResponseDto.success();
     }
 
-    @PostMapping("/getHospitalList")
-    public ResponseDto<String> getHospitalList() throws Throwable {
+    @PostMapping("/getHospitals")
+    public ResponseDto<String> getHospitals() throws Throwable {
         Contract contract = contractUtil.getContract(CONTRACT);
-        byte[] bytes = contract.evaluateTransaction("GetHospitalList");
+        byte[] bytes = contract.evaluateTransaction("GetHospitals");
         return ResponseDto.success(new String(bytes, StandardCharsets.UTF_8));
     }
 
-    @PostMapping("/getHospitalInfo")
-    public ResponseDto<String> getHospitalInfo(@RequestBody CreateParams params) throws Throwable {
+    @PostMapping("/getPatients")
+    public ResponseDto<String> getPatients(@RequestBody HospitalGetPatients params) throws Throwable {
         Contract contract = contractUtil.getContract(CONTRACT);
-        byte[] bytes = contract.evaluateTransaction("GetHospitalInfo", params.getName());
+        byte[] bytes = contract.evaluateTransaction("GetPatients", params.getHospitalName());
         return ResponseDto.success(new String(bytes, StandardCharsets.UTF_8));
     }
 
