@@ -37,10 +37,9 @@ public class PatientContractController {
     }
 
     @PostMapping("/conductExamination")
-    public ResponseDto<String> ConductExamination(@RequestBody ModifyReportDto params) throws Throwable {
+    public ResponseDto<String> ConductExamination(@RequestBody ConductExaminationDto params) throws Throwable {
         Contract contract = contractUtil.getContract(CONTRACT);
-        byte[] bytes = contract.submitTransaction("ConductExamination", params.getHospitalName(), params.getPatientName()
-                , params.getSymptoms(), JSONObject.toJSONString(params.getNeededDrugs()));
+        byte[] bytes = contract.submitTransaction("ConductExamination", params.getPatientName(), params.getHospitalName());
         return ResponseDto.success(new String(bytes, StandardCharsets.UTF_8));
     }
 
