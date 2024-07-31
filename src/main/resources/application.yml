@@ -1,6 +1,7 @@
 spring:
   application:
     name: fabric
+
 logging:
   file:
     name: app.log
@@ -9,7 +10,10 @@ logging:
     root: WARN
 
 fabric:
-  chaincodeId: mycc
+  chaincodeId: mycc3
   channel: mychannel
   contractNames: ManufacturerContract,HospitalContract,PatientContract
   path:
+
+server:
+  port: 8888

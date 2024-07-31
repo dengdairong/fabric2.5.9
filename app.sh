@@ -20,7 +20,7 @@ GC_LOG_OPTS="-XX:+UseG1GC -XX:+PrintGCDetails -Xloggc:gc.log -Xlog:gc+heap=trace
 # 定义启动Spring Boot应用的命令
 start() {
     echo "Starting $APP_NAME..."
-    nohup java $MEM_OPTS $GC_LOG_OPTS -jar $APP_JAR -Dotel.traces.exporter=none -Dotel.metrics.exporter=none > /dev/null 2>&1 &
+    nohup java $MEM_OPTS $GC_LOG_OPTS -jar -Dotel.traces.exporter=none -Dotel.metrics.exporter=none $APP_JAR > /dev/null 2>&1 &
     # nohup java $MEM_OPTS $GC_LOG_OPTS -jar $APP_JAR -Dotel.traces.exporter=none -Dotel.metrics.exporter=none  &
     echo $! > $PID_FILE
     echo "$APP_NAME started successfully."
