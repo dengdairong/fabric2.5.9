@@ -19,19 +19,23 @@ GC_LOG_OPTS="-XX:+UseG1GC -XX:+PrintGCDetails -Xloggc:gc.log -Xlog:gc+heap=trace
 
 # 定义启动Spring Boot应用的命令
 start() {
+    stop
     echo "Starting $APP_NAME..."
-    nohup java $MEM_OPTS $GC_LOG_OPTS -jar -Dotel.traces.exporter=none -Dotel.metrics.exporter=none $APP_JAR > /dev/null 2>&1 &
+    nohup java $MEM_OPTS $GC_LOG_OPTS -jar -Dotel.traces.exporter=none -Dotel.metrics.exporter=none $APP_JAR  > /dev/null 2>&1 &
     # nohup java $MEM_OPTS $GC_LOG_OPTS -jar $APP_JAR -Dotel.traces.exporter=none -Dotel.metrics.exporter=none  &
-    echo $! > $PID_FILE
     echo "$APP_NAME started successfully."
 }
 
 # 定义停止Spring Boot应用的命令
 stop() {
-    echo "Stopping $APP_NAME..."
-    kill `cat $PID_FILE`
-    rm -f $PID_FILE
-    echo "$APP_NAME stopped successfully."
+    PID=`jps |grep $APP_NAME |awk  '{print $1}'`
+    if [ -z "$PID" ]; then
+        echo "$APP_NAME not start"
+    else
+        echo "Stopping $APP_NAME..."
+        kill -9 $PID
+        echo "$APP_NAME stopped successfully."
+    fi
 }
 
 # 根据传入的参数调用相应的函数
